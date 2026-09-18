@@ -37,7 +37,7 @@ public class Usuario {
     private String stripeCustomerId;
 
     @Column(nullable = false, updatable = false)
-    private OffsetDateTime criadoEm;
+    private OffsetDateTime criadoEm = OffsetDateTime.now();
 
     public Usuario() {}
 
@@ -75,6 +75,10 @@ public class Usuario {
 
     public Papel getPapel() {
         return this.papel;
+    }
+
+    public void setProvider(Provider provider) {
+        this.provider = provider;
     }
 
     public void setPapel(Papel papel) {
