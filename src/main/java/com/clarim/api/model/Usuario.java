@@ -24,7 +24,7 @@ public class Usuario {
     private Papel papel = Papel.LEITOR;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 120)
+    @Column(nullable = false, length = 20)
     private Provider provider = Provider.LOCAL;
 
     @Column(length = 120)
@@ -36,17 +36,18 @@ public class Usuario {
     @Column(nullable = false, length = 60)
     private String stripeCustomerId;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, insertable = false, updatable = false)
     private OffsetDateTime criadoEm = OffsetDateTime.now();
 
-    public Usuario() {}
+    public Usuario() {
+    }
 
     public Long getId() {
         return this.id;
     }
 
     // public void setId(Long id) {
-    //     this.id = id;
+    // this.id = id;
     // }
 
     public String getNome() {
@@ -98,7 +99,7 @@ public class Usuario {
     }
 
     // public void setStripeCustomerId(String stripeCustomerId) {
-    //     this.stripeCustomerId = stripeCustomerId;
+    // this.stripeCustomerId = stripeCustomerId;
     // }
 
     public OffsetDateTime getCriadoEm() {
@@ -110,6 +111,6 @@ public class Usuario {
     }
 
     // public void setProvider(String provider) {
-    //     this.provider = provider;
+    // this.provider = provider;
     // }
 }
