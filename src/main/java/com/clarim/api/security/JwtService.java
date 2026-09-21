@@ -4,6 +4,7 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.function.Function;
 import javax.crypto.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Component;
@@ -33,5 +34,28 @@ public class JwtService {
                 .expiration(expiraEm)
                 .signWith(this.chave())
                 .compact();
+    }
+
+    public String extrairEmail(String token) {
+        return extrairClaim(token, Claims::getSubject);
+    }
+
+    public boolean tokenValido(String token, String emailEsperado) {
+        String email = extrairEmail(token);
+        return email.equals(emailEsperado);
+    }
+
+    private boolean tokenExpirado(String token) {
+        Date expiraEm = extrairClaim(token, Claims::getExpiration);
+        return expiraEm.before(new Date());
+    }
+
+    private <T> T extrairClaim(String token, Function<Claims, T> resolvedor) {
+        Claims claims = Jwts.parser()
+                .verifyWith(chave())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        return resolvedor.apply(claims);
     }
 }

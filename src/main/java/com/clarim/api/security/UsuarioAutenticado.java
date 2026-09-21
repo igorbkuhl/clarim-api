@@ -14,9 +14,28 @@ public class UsuarioAutenticado implements UserDetails {
         this.usuario = usuario;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
     @Override
     public String getUsername() {
         return usuario.getEmail();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
     }
 
     @Override
@@ -33,9 +52,5 @@ public class UsuarioAutenticado implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         String papel = "ROLE_" + usuario.getPapel().name();
         return List.of(new SimpleGrantedAuthority(papel));
-    }
-
-    public Usuario getUsuario() {
-        return this.usuario;
     }
 }
