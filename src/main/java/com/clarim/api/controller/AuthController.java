@@ -4,9 +4,7 @@ import com.clarim.api.dto.LoginRequest;
 import com.clarim.api.dto.LoginResposta;
 import com.clarim.api.security.JwtService;
 import com.clarim.api.security.UsuarioAutenticado;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,8 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/auth")
-@Configuration
+
 public class AuthController {
+
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
@@ -31,14 +30,18 @@ public class AuthController {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.senha()));
+
             UsuarioAutenticado usuarioAutenticado = (UsuarioAutenticado) authentication.getPrincipal();
+
             String token = jwtService.gerarToken(usuarioAutenticado);
+
             return new LoginResposta(
                     token,
                     usuarioAutenticado.getUsuario().getNome(),
-                    usuarioAutenticado.getUsuario().getPapel().name());
+                    usuarioAutenticado.getUsuario().getPapel().name()
+            );
         } catch (Exception e) {
-            throw new BadCredentialsException("Erro ao autenticar usuário.");
+            throw new RuntimeException("Erro ao autenticar usuário");
         }
     }
 }

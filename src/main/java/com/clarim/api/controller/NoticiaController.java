@@ -1,13 +1,18 @@
 package com.clarim.api.controller;
 
+import com.clarim.api.dto.NoticiaRequest;
+import com.clarim.api.dto.NoticiaResponse;
 import com.clarim.api.dto.NoticiaResumo;
 import com.clarim.api.service.NoticiaService;
-import java.util.*;
+import jakarta.validation.Valid;
+import java.util.List;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/noticias")
 public class NoticiaController {
+
     private final NoticiaService noticiaService;
 
     public NoticiaController(NoticiaService noticiaService) {
@@ -31,5 +36,11 @@ public class NoticiaController {
         return noticiaService.listarTodas().stream()
                 .filter(n -> n.titulo().toLowerCase().contains(termo.toLowerCase()))
                 .toList();
+    }
+
+    @PostMapping("/criar")
+    public ResponseEntity<NoticiaResponse> criar(@RequestBody @Valid NoticiaRequest noticia) {
+        NoticiaResponse criada = noticiaService.criar(noticia);
+        return ResponseEntity.ok(criada);
     }
 }

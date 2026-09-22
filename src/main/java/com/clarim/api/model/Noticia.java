@@ -128,6 +128,14 @@ public class Noticia {
         this.usuario = usuario;
     }
 
+    public Set<Tag> getTags() {
+        return this.tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
     public void adicionarTag(Tag tag) {
         this.tags.add(tag);
         tag.getNoticias().add(this);

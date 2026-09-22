@@ -1,12 +1,13 @@
 package com.clarim.api.security;
 
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.function.Function;
-import javax.crypto.*;
-import org.springframework.beans.factory.annotation.*;
+import javax.crypto.SecretKey;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,22 +18,22 @@ public class JwtService {
     @Value("${jwt.expiracao-minutos}")
     private Long jwtExpiracaoMinutos;
 
-    private SecretKey chave() {
+    private SecretKey chaveSecreta() {
         byte[] bytes = jwtSecret.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(bytes);
     }
 
-    public String gerarToken(UsuarioAutenticado usuarioAutenticado) {
+    public String gerarToken(UsuarioAutenticado usuario) {
         Date agora = new Date();
         Date expiraEm = new Date(agora.getTime() + jwtExpiracaoMinutos * 60 * 1000);
 
         return Jwts.builder()
-                .subject(usuarioAutenticado.getUsername())
-                .claim("nome", usuarioAutenticado.getUsuario().getNome())
-                .claim("papel", usuarioAutenticado.getUsuario().getPapel().name())
+                .subject(usuario.getUsername())
+                .claim("papel", usuario.getUsuario().getPapel().name())
+                .claim("nome", usuario.getUsuario().getNome())
                 .issuedAt(agora)
                 .expiration(expiraEm)
-                .signWith(this.chave())
+                .signWith(chaveSecreta())
                 .compact();
     }
 
@@ -42,7 +43,7 @@ public class JwtService {
 
     public boolean tokenValido(String token, String emailEsperado) {
         String email = extrairEmail(token);
-        return email.equals(emailEsperado);
+        return email.equals(emailEsperado) && !tokenExpirado(token);
     }
 
     private boolean tokenExpirado(String token) {
@@ -52,7 +53,7 @@ public class JwtService {
 
     private <T> T extrairClaim(String token, Function<Claims, T> resolvedor) {
         Claims claims = Jwts.parser()
-                .verifyWith(chave())
+                .verifyWith(chaveSecreta())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
