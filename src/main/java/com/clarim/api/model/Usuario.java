@@ -39,19 +39,18 @@ public class Usuario {
     @Column(nullable = false, insertable = false, updatable = false)
     private OffsetDateTime criadoEm = OffsetDateTime.now();
 
-    public Usuario() {
-    }
+    public Usuario() {}
 
     public Long getId() {
-        return this.id;
+        return id;
     }
 
-    // public void setId(Long id) {
-    // this.id = id;
-    // }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getNome() {
-        return this.nome;
+        return nome;
     }
 
     public void setNome(String nome) {
@@ -59,7 +58,7 @@ public class Usuario {
     }
 
     public String getEmail() {
-        return this.email;
+        return email;
     }
 
     public void setEmail(String email) {
@@ -67,7 +66,7 @@ public class Usuario {
     }
 
     public String getSenhaHash() {
-        return this.senhaHash;
+        return senhaHash;
     }
 
     public void setSenhaHash(String senhaHash) {
@@ -75,19 +74,31 @@ public class Usuario {
     }
 
     public Papel getPapel() {
-        return this.papel;
-    }
-
-    public void setProvider(Provider provider) {
-        this.provider = provider;
+        return papel;
     }
 
     public void setPapel(Papel papel) {
         this.papel = papel;
     }
 
+    public Provider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(Provider provider) {
+        this.provider = provider;
+    }
+
+    public String getProviderId() {
+        return providerId;
+    }
+
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
+    }
+
     public String getAvatarUrl() {
-        return this.avatarUrl;
+        return avatarUrl;
     }
 
     public void setAvatarUrl(String avatarUrl) {
@@ -95,22 +106,18 @@ public class Usuario {
     }
 
     public String getStripeCustomerId() {
-        return this.stripeCustomerId;
+        return stripeCustomerId;
     }
 
-    // public void setStripeCustomerId(String stripeCustomerId) {
-    // this.stripeCustomerId = stripeCustomerId;
-    // }
+    public void setStripeCustomerId(String stripeCustomerId) {
+        this.stripeCustomerId = stripeCustomerId;
+    }
 
     public OffsetDateTime getCriadoEm() {
-        return this.criadoEm;
+        return criadoEm;
     }
 
-    public Provider getProvider() {
-        return this.provider;
+    public void setCriadoEm(OffsetDateTime criadoEm) {
+        this.criadoEm = criadoEm;
     }
-
-    // public void setProvider(String provider) {
-    // this.provider = provider;
-    // }
 }
