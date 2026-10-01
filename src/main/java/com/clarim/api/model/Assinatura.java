@@ -36,6 +36,80 @@ public class Assinatura {
     @Column(name = "atualizado_em", nullable = false)
     private OffsetDateTime atualizadoEm;
 
+    public Assinatura() {}
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Plano getPlano() {
+        return plano;
+    }
+
+    public void setPlano(Plano plano) {
+        this.plano = plano;
+    }
+
+    public String getStripeSubscriptionId() {
+        return stripeSubscriptionId;
+    }
+
+    public void setStripeSubscriptionId(String stripeSubscriptionId) {
+        this.stripeSubscriptionId = stripeSubscriptionId;
+    }
+
+    public StatusAssinatura getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusAssinatura status) {
+        this.status = status;
+    }
+
+    public OffsetDateTime getPeriodoFim() {
+        return periodoFim;
+    }
+
+    public void setPeriodoFim(OffsetDateTime periodoFim) {
+        this.periodoFim = periodoFim;
+    }
+
+    public Boolean getCancelarAoFim() {
+        return cancelarAoFim;
+    }
+
+    public void setCancelarAoFim(Boolean cancelarAoFim) {
+        this.cancelarAoFim = cancelarAoFim;
+    }
+
+    public OffsetDateTime getCriadoEm() {
+        return criadoEm;
+    }
+
+    public void setCriadoEm(OffsetDateTime criadoEm) {
+        this.criadoEm = criadoEm;
+    }
+
+    public OffsetDateTime getAtualizadoEm() {
+        return atualizadoEm;
+    }
+
+    public void setAtualizadoEm(OffsetDateTime atualizadoEm) {
+        this.atualizadoEm = atualizadoEm;
+    }
+
     @PreUpdate
     private void aoAtualizar() {
         this.atualizadoEm = OffsetDateTime.now();
